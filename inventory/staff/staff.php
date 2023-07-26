@@ -8,19 +8,9 @@ include "../koneksi.php";
 //     header("location: ../login.php");
 //     exit;
 // } 
-$list ="";
-if(isset($_POST['list'])){
-  $list = $_POST['list'];
-}
 
 
-switch ($list){
-  case "h":
-    
-    break;
-  case 'a':
-    echo "<script> alert('bisa') </script>";
-}
+
 
 ?>
 <head>
@@ -73,23 +63,15 @@ switch ($list){
 <div class="container">
   
   <form action="" method="post">
-
-
-
-
-
 <table class="table">
-  <select name="list" id="">
-    <option value="h" <?php if($list == "h" ) ?>>H</option>
-    <option value="a" <?php if($list == "a" ) ?>>a</option>
+<select name="option">
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+            <!-- Add more options as needed -->
   </select>
-
-
-
-
-
-
-
+  <input type="submit" name="submit" value="Submit"> 
+ 
   <thead>
     <tr>
     
@@ -109,10 +91,47 @@ switch ($list){
 
   </thead>
   <tbody>
+  <script>
+  
+</script>
+
   <?php
-           include "../koneksi.php";
+  $query = "";
+          if (isset($_POST['submit'])) {
+            // Get the selected option
+            $selectedOption = $_POST['option'];
+    
+            // Use a switch statement to handle the selected option
+            switch ($selectedOption) {
+                case 'option1':
+                  $query = "SELECT id_pc,  lantai, kelas,  nama_ged FROM device_pc INNER JOIN gedung ON device_pc.id_ged = gedung.id_ged WHERE nama_ged= 'H'";
+                    break;
+    
+                case 'option2':
+                  $query = "SELECT id_pc,  lantai, kelas,  nama_ged FROM device_pc INNER JOIN gedung ON device_pc.id_ged = gedung.id_ged WHERE nama_ged= 'A'";
+                  break;
+                    break;
+    
+                case 'option3':
+                    echo "You selected Option 3.";
+                    break;
+
+                case null:
+
+                // Add more cases as needed for additional options
+    
+                default:
+                $query = "SELECT id_pc,  lantai, kelas,  nama_ged FROM device_pc INNER JOIN gedung ON device_pc.id_ged = gedung.id_ged";
+                    break;
+            }
+        }else{
+          $query = "SELECT id_pc,  lantai, kelas,  nama_ged FROM device_pc INNER JOIN gedung ON device_pc.id_ged = gedung.id_ged";
+        }
+
+  
+          
            
-           $data = mysqli_query($db, "SELECT id_pc,  lantai, kelas,  nama_ged FROM device_pc INNER JOIN gedung ON device_pc.id_ged = gedung.id_ged WHERE nama_ged= '$querystring'");
+           $data = mysqli_query($db, $query);
            foreach($data as $dt):
                 ?>
                 <tr>
@@ -130,6 +149,7 @@ switch ($list){
 </div>
 </center>
   
+
 
 
 
